@@ -190,4 +190,7 @@ For each processed frame/image, the backend returns:
 
 ## License
 
-Add your preferred license here (for example MIT) if you plan to distribute this project publicly.
+MIT License.
+
+See the `LICENSE` file for full text.
+
