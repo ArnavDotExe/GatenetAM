@@ -40,31 +40,24 @@ The web interface provides:
 
 ### Actual Project Image
 
-![Actual Project Image](assests/WhatsApp%20Image%202026-03-19%20at%207.06.42%20PM.jpeg)
-
-### UI and Visual Assets
-
-![Hero / Printer](app/static/public/3d_printer.jpg)
-![Bridging Example](app/static/public/bridging.png)
-![Layer Shift Example](app/static/public/layer_shift.png)
-![Spaghetti Example](app/static/public/spagetti.png)
+<img src="assests/WhatsApp%20Image%202026-03-19%20at%207.06.42%20PM.jpeg" alt="Actual Project Image" width="760" />
 
 ### Sample Monitoring Frames
 
 The app also reads frames from the `images/` folder for monitoring simulation.
 
-![Frame 1](images/image_0067.jpg)
-![Frame 2](images/image_0126.jpg)
-![Frame 3](images/image_0337.jpg)
+<img src="images/image_0067.jpg" alt="Frame 1" width="320" />
+<img src="images/image_0126.jpg" alt="Frame 2" width="320" />
+<img src="images/image_0337.jpg" alt="Frame 3" width="320" />
 
 ### Website Screenshots (Captured)
 
-![Website Screenshot 1](assests/WhatsApp%20Image%202026-03-19%20at%206.33.56%20PM.jpeg)
-![Website Screenshot 2](assests/WhatsApp%20Image%202026-03-19%20at%206.34.41%20PM.jpeg)
-![Website Screenshot 3](assests/WhatsApp%20Image%202026-03-19%20at%206.35.05%20PM.jpeg)
-![Website Screenshot 4](assests/WhatsApp%20Image%202026-03-19%20at%206.35.30%20PM.jpeg)
-![Website Screenshot 5](assests/WhatsApp%20Image%202026-03-19%20at%206.35.55%20PM.jpeg)
-![Website Screenshot 6](assests/WhatsApp%20Image%202026-03-19%20at%206.36.21%20PM.jpeg)
+<img src="assests/WhatsApp%20Image%202026-03-19%20at%206.33.56%20PM.jpeg" alt="Website Screenshot 1" width="360" />
+<img src="assests/WhatsApp%20Image%202026-03-19%20at%206.34.41%20PM.jpeg" alt="Website Screenshot 2" width="360" />
+<img src="assests/WhatsApp%20Image%202026-03-19%20at%206.35.05%20PM.jpeg" alt="Website Screenshot 3" width="360" />
+<img src="assests/WhatsApp%20Image%202026-03-19%20at%206.35.30%20PM.jpeg" alt="Website Screenshot 4" width="360" />
+<img src="assests/WhatsApp%20Image%202026-03-19%20at%206.35.55%20PM.jpeg" alt="Website Screenshot 5" width="360" />
+<img src="assests/WhatsApp%20Image%202026-03-19%20at%206.36.21%20PM.jpeg" alt="Website Screenshot 6" width="360" />
 
 ## Website Videos
 
