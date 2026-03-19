@@ -70,11 +70,16 @@ The app also reads frames from the `images/` folder for monitoring simulation.
 
 ### Demo Recording 1
 
-<video src="assests/Recording%202026-03-19%20183721.mp4" controls width="900"></video>
+
+https://github.com/user-attachments/assets/f52dd9b6-0ee9-49fd-bd5b-22f35f0d8b33
+
 
 ### Demo Recording 2
 
-<video src="assests/Recording%202026-03-19%20183843.mp4" controls width="900"></video>
+
+
+https://github.com/user-attachments/assets/ce5e2b31-c107-4dae-81bc-3b3cb604f8da
+
 
 ## System Architecture
 
