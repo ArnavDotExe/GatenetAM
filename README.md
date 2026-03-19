@@ -78,28 +78,32 @@ https://github.com/user-attachments/assets/ce5e2b31-c107-4dae-81bc-3b3cb604f8da
 
 ### High-Level Flow
 
-- Client UI requests monitoring actions from Flask API routes
-- Flask pipeline loads and reuses AI models once at startup
-- YOLO model detects abnormal print region and generates crop
-- EfficientNet classifier predicts error class and confidence
-- API returns JSON response to update UI state in near-real-time
+- Raspberry Pi (edge device) captures an image of the ongoing print
+- ABN cropper extracts the target region from the captured image
+- Binary classifier checks whether the region is anomaly/no-anomaly
+- If anomaly is flagged, error classifier predicts the exact error type
+- If no anomaly is flagged, the frame is marked as no-error
+- Pipeline captures the next image and repeats the same cycle until monitoring is stopped
 
 ### Architecture Diagram (Mermaid)
 
 ```mermaid
-flowchart LR
-    A[Browser UI<br/>home.html / index.html] -->|GET /api/images-list| B[Flask API]
-    A -->|GET /api/get-image/:filename| B
-    A -->|POST /api/process-server-image| B
-    A -->|POST /api/process-image| B
+flowchart TD
+    S([Monitoring Started]) --> PI[Raspberry Pi Edge Device<br/>Capture Image]
+    PI --> CROP[ABN Cropping]
+    CROP --> BIN[Binary Classification]
+    BIN --> F{Anomaly Flagged?}
 
-    B --> C[Image Source<br/>images/ or uploaded files]
-    B --> D[ABNCropper<br/>YOLO imxv11-2300.pt]
-    D -->|crop| E[Classifier<br/>EfficientNet-B0]
-    E -->|label + confidence + probabilities| B
-    B -->|JSON response| A
+    F -- Yes --> ERR[Error Classification]
+    F -- No --> NOERR[Mark as No Error]
 
-    B --> F[Static Output<br/>app/static/uploads]
+    ERR --> OUT[Store/Display Result]
+    NOERR --> OUT
+
+    OUT --> STOP{Stopped by User?}
+    STOP -- No --> NXT[Capture Next Image]
+    NXT --> PI
+    STOP -- Yes --> E([Monitoring Stopped])
 ```
 
 ### Core Components
