@@ -119,15 +119,6 @@ flowchart TD
 - `app/static/uploads/`: generated crop outputs during inference
 - `images/`: server-side frame source for simulated monitoring
 
-## API Endpoints
-
-| Method | Endpoint | Purpose |
-|---|---|---|
-| `POST` | `/api/process-image` | Process an uploaded image |
-| `POST` | `/api/process-server-image` | Process a selected image from `images/` |
-| `GET` | `/api/images-list` | Get available frame filenames |
-| `GET` | `/api/get-image/<filename>` | Serve image from `images/` |
-| `POST` | `/api/clear-uploads` | Delete generated images in `app/static/uploads/` |
 
 ## Tech Stack
 
