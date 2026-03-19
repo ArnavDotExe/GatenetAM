@@ -40,15 +40,15 @@ The web interface provides:
 
 ### Actual Project Image
 
-<img src="assests/WhatsApp%20Image%202026-03-19%20at%207.06.42%20PM.jpeg" alt="Actual Project Image" width="760" />
+<img src="assests/WhatsApp%20Image%202026-03-19%20at%207.06.42%20PM.jpeg" alt="Actual Project Image" width="400" />
 
 ### Sample Monitoring Frames
 
 The app also reads frames from the `images/` folder for monitoring simulation.
 
-<img src="images/image_0067.jpg" alt="Frame 1" width="160" />
-<img src="images/image_0126.jpg" alt="Frame 2" width="160" />
-<img src="images/image_0337.jpg" alt="Frame 3" width="160" />
+<img src="images/image_0067.jpg" alt="Frame 1" width="320" />
+<img src="images/image_0126.jpg" alt="Frame 2" width="320" />
+<img src="images/image_0337.jpg" alt="Frame 3" width="320" />
 
 ### Website Screenshots (Captured)
 
