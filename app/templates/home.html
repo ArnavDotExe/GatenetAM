@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>GateNet AM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .flip-card {
+            perspective: 1000px;
+        }
+
+        .flip-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .flip-card:hover .flip-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-front,
+        .flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .flip-back {
+            background: #1f2937;
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .delay-100 {
+            animation-delay: 100ms;
+        }
+
+        .delay-200 {
+            animation-delay: 200ms;
+        }
+
+        .delay-300 {
+            animation-delay: 300ms;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900 overflow-x-hidden transition-colors duration-500">
+    <!-- Navbar -->
+    <nav
+        class="bg-white/90 backdrop-blur-md shadow-sm fixed w-full z-50 transition-all duration-300 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <div class="text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2">
+                GateNet<span class="text-orange-500">AM</span>
+            </div>
+
+            <!-- Desktop Menu -->
+            <ul
+                class="hidden md:flex items-center space-x-2 bg-gray-50 rounded-full px-2 py-1 shadow-inner border border-gray-100">
+                <li><a href="#home"
+                        class="desktop-nav px-5 py-2 rounded-full text-sm transition border bg-white shadow-sm border-gray-200 font-semibold text-gray-900">Home</a>
+                </li>
+                <li><a href="#idea"
+                        class="desktop-nav px-5 py-2 rounded-full text-sm transition border font-medium text-gray-600 hover:text-gray-900 hover:bg-white/50 border-transparent">Idea</a>
+                </li>
+                <li><a href="#architecture"
+                        class="desktop-nav px-5 py-2 rounded-full text-sm transition border font-medium text-gray-600 hover:text-gray-900 hover:bg-white/50 border-transparent">Architecture</a>
+                </li>
+                <li><a href="{{ url_for('views.test') }}"
+                        class="px-6 py-2 rounded-full text-sm font-semibold bg-orange-500 text-white shadow-md hover:bg-orange-600 transition hover:-translate-y-0.5 inline-block">Test</a>
+                </li>
+            </ul>
+
+            <!-- Hamburger -->
+            <button id="menuBtn" class="md:hidden text-2xl text-gray-700 hover:text-orange-500 transition">☰</button>
+        </div>
+    </nav>
+
+    <!-- Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-40 transition-opacity"></div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu"
+        class="fixed top-0 right-0 w-72 h-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50">
+        <div class="flex justify-end p-6 border-b border-gray-100">
+            <button id="closeBtn" class="text-2xl text-gray-500 hover:text-orange-500 transition">✕</button>
+        </div>
+        <ul class="flex flex-col p-6 space-y-4 text-lg font-medium">
+            <li><a href="#home" onclick="closeMenu()"
+                    class="mobile-nav block px-4 py-2 rounded-lg transition-colors text-orange-500 bg-orange-50 font-semibold">Home</a>
+            </li>
+            <li><a href="#idea" onclick="closeMenu()"
+                    class="mobile-nav block px-4 py-2 rounded-lg transition-colors text-gray-600 hover:text-gray-900 font-medium">Idea</a>
+            </li>
+            <li><a href="#architecture" onclick="closeMenu()"
+                    class="mobile-nav block px-4 py-2 rounded-lg transition-colors text-gray-600 hover:text-gray-900 font-medium">Architecture</a>
+            </li>
+            <li><a href="{{ url_for('views.test') }}"
+                    class="block text-center bg-orange-500 text-white font-semibold px-4 py-3 rounded-xl shadow-md hover:bg-orange-600 transition mt-4">Test</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-32 pb-16 lg:pt-40 lg:pb-24 overflow-hidden bg-white">
+        <div class="max-w-7xl mx-auto flex flex-col items-center px-4">
+            <div class="text-center max-w-4xl mx-auto z-10 animate-fade-in-up">
+                <h1 class="text-5xl md:text-7xl font-light tracking-tight text-gray-900 leading-[1.1]">
+                    AI that watches your <span class="font-bold text-orange-500">3D prints</span>, <br />
+                    <span class="font-light">so you don’t have to.</span>
+                </h1>
+                <p class="mt-8 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
+                    This system monitors your print in real time and detects issues the moment they begin.
+                </p>
+                <div class="flex flex-col sm:flex-row w-full justify-center gap-6 mt-10">
+                    <a href="{{ url_for('views.test') }}" class="inline-block">
+                        <button
+                            class="bg-orange-500 hover:bg-orange-600 text-white rounded-full w-full sm:w-40 px-8 py-4 font-semibold text-lg transition-all shadow-[0_4px_14px_0_rgb(249,115,22,0.39)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.23)] hover:-translate-y-1">
+                            Test Now
+                        </button>
+                    </a>
+                    <a href="" class="inline-block">
+                        <button
+                            class="bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 rounded-full w-full sm:w-40 px-8 py-4 font-medium text-lg transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
+                            Demo
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="w-full mt-16 md:mt-24 animate-fade-in-up delay-200">
+                <div class="relative w-[90%] md:w-3/4 mx-auto group">
+                    <div
+                        class="absolute -inset-1 bg-gradient-to-r from-orange-500 to-gray-300 rounded-[2rem] blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200">
+                    </div>
+                    <img class="relative w-full rounded-[2rem] shadow-2xl object-cover h-[40vh] md:h-[60vh] transition duration-700 hover:scale-[1.01]"
+                        src="../static/public/3d_printer.jpg" alt="3D Printer">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Failures Section -->
+    <section class="py-24 bg-[#111111] border-t-8 border-orange-500 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -ml-32 -mt-32"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl -ml-40 -mb-40"></div>
+        <div class="max-w-6xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-20 animate-fade-in-up">
+                <h2 class="text-4xl md:text-6xl font-light text-white mb-6 tracking-tight">
+                    <span class="font-bold text-orange-500">3D printing</span> is unpredictable.
+                </h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
+                    Most failures aren’t noticed until it’s too late, after hours of printing and wasted material.
+                </p>
+            </div>
+            <div id="cardContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left"></div>
+        </div>
+    </section>
+
+    <!-- Features Section / Smarter Print Monitoring -->
+    <section class="py-24 bg-gray-50 relative overflow-hidden" id="idea">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16 animate-fade-in-up">
+                <h2 class="text-4xl md:text-5xl font-light text-gray-900 mb-6 tracking-tight">
+                    Smarter <span class="font-bold text-orange-500">Print Monitoring</span>
+                </h2>
+                <p class="text-xl text-gray-500 font-light leading-relaxed">
+                    An AI system that observes your 3D prints in real time and catches failures before they escalate.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div
+                    class="bg-white rounded-[1rem] shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition duration-300 animate-fade-in-up flex flex-col overflow-hidden group">
+                    <div class="bg-[#ffe8d6] p-8 flex-grow flex flex-col">
+                        <p class="text-gray-700 font-medium text-lg leading-relaxed mb-8 flex-grow pr-4">Continuously
+                            watches the printing process through a live camera feed, eliminating the need for manual
+                            supervision.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-4 py-1.5 bg-[#ffdbbc] text-gray-900 rounded-full text-sm font-semibold tracking-wide">Live
+                                Feed</span>
+                            <span
+                                class="px-4 py-1.5 bg-[#ffdbbc] text-gray-900 rounded-full text-sm font-semibold tracking-wide">Vision
+                                AI</span>
+                            <span
+                                class="px-4 py-1.5 bg-[#ffdbbc] text-gray-900 rounded-full text-sm font-semibold tracking-wide">Autonomous</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white p-6 flex justify-between items-center group-hover:bg-gray-50 transition-colors">
+                        <span class="text-xl font-bold text-gray-900">Real-Time Monitoring</span>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div
+                    class="bg-white rounded-[1rem] shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition duration-300 animate-fade-in-up delay-100 flex flex-col overflow-hidden group">
+                    <div class="bg-[#ffe8d6] p-8 flex-grow flex flex-col">
+                        <p class="text-gray-700 font-medium text-lg leading-relaxed mb-8 flex-grow pr-4">Uses computer
+                            vision to recognize abnormal patterns like layer shifts, blobs, and structural
+                            inconsistencies.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-4 py-1.5 bg-[#ffdbbc] text-gray-900 rounded-full text-sm font-semibold tracking-wide">Algorithms</span>
+                            <span
+                                class="px-4 py-1.5 bg-[#ffdbbc] text-gray-900 rounded-full text-sm font-semibold tracking-wide">Precision</span>
+                            <span
+                                class="px-4 py-1.5 bg-[#ffdbbc] text-gray-900 rounded-full text-sm font-semibold tracking-wide">Pattern
+                                Rec</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white p-6 flex justify-between items-center group-hover:bg-gray-50 transition-colors">
+                        <span class="text-xl font-bold text-gray-900">Intelligent Detection</span>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div
+                    class="bg-white rounded-[1rem] shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition duration-300 animate-fade-in-up delay-200 flex flex-col overflow-hidden group">
+                    <div class="bg-[#ffe8d6] p-8 flex-grow flex flex-col">
+                        <p class="text-gray-700 font-medium text-lg leading-relaxed mb-8 flex-grow pr-4">Identifies
+                            issues as soon as they begin — helping prevent wasted time, material, and failed prints.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-4 py-1.5 bg-[#ffdbbc] text-gray-900 rounded-full text-sm font-semibold tracking-wide">Alerts</span>
+                            <span
+                                class="px-4 py-1.5 bg-[#ffdbbc] text-gray-900 rounded-full text-sm font-semibold tracking-wide">Zero
+                                Waste</span>
+                            <span
+                                class="px-4 py-1.5 bg-[#ffdbbc] text-gray-900 rounded-full text-sm font-semibold tracking-wide">Cost
+                                Saving</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white p-6 flex justify-between items-center group-hover:bg-gray-50 transition-colors">
+                        <span class="text-xl font-bold text-gray-900">Early Failure Alerts</span>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div
+                    class="bg-white rounded-[1rem] shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition duration-300 animate-fade-in-up delay-300 flex flex-col overflow-hidden group">
+                    <div class="bg-[#ffe8d6] p-8 flex-grow flex flex-col">
+                        <p class="text-gray-700 font-medium text-lg leading-relaxed mb-8 flex-grow pr-4">Instead of
+                            analyzing results after failure, the system detects problems during the print itself.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-4 py-1.5 bg-[#ffdbbc] text-gray-900 rounded-full text-sm font-semibold tracking-wide">Predictive</span>
+                            <span
+                                class="px-4 py-1.5 bg-[#ffdbbc] text-gray-900 rounded-full text-sm font-semibold tracking-wide">Actionable</span>
+                            <span
+                                class="px-4 py-1.5 bg-[#ffdbbc] text-gray-900 rounded-full text-sm font-semibold tracking-wide">Defense</span>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-white p-6 flex justify-between items-center group-hover:bg-gray-50 transition-colors">
+                        <span class="text-xl font-bold text-gray-900">Proactive, Not Reactive</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="py-24 bg-white relative overflow-hidden" id="architecture">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12 lg:gap-20">
+            <div class="w-full md:w-2/5 animate-fade-in-up">
+                <h2 class="text-4xl md:text-5xl font-light text-gray-900 mb-6 tracking-tight">
+                    System <span class="font-bold text-orange-500">Architecture</span>
+                </h2>
+                <p class="text-xl text-gray-500 font-light leading-relaxed">
+                    Engineered for high-performance and low latency, our infrastructure processes video streams
+                    seamlessly to ensure ISO certified quality and zero missed anomalies.
+                </p>
+            </div>
+            <div class="w-full md:w-3/5 animate-fade-in-up delay-200">
+                <div class="relative group">
+                    <div
+                        class="absolute -inset-1 bg-orange-500/20 rounded-[2rem] blur-lg opacity-0 group-hover:opacity-100 transition duration-700">
+                    </div>
+                    <img src="../static/public/layer_shift.png" alt="Architecture Diagram"
+                        class="relative w-full rounded-[2rem] shadow-2xl object-cover h-[400px] md:h-[550px] transition duration-700 hover:scale-[1.02]"
+                        onerror="this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-[#111111] py-12 border-t border-gray-800 relative z-20">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h3 class="text-orange-500 font-bold tracking-widest uppercase mb-6 text-sm">Project Group Members</h3>
+            <div
+                class="flex flex-wrap justify-center items-center gap-6 md:gap-12 text-gray-300 text-lg font-light animate-fade-in-up">
+                <span class="hover:text-white transition">Archi</span>
+                <span class="hover:text-white transition">Arnav</span>
+                <span class="hover:text-white transition">Rutuparna</span>
+                <span class="hover:text-white transition">Shubham</span>
+            </div>
+            <!-- Social Icons & Copyright -->
+            <div class="mt-12 flex flex-col items-center justify-center gap-6 animate-fade-in-up">
+                <div class="flex items-center gap-6">
+                    <!-- GitHub Icon -->
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors duration-300"
+                        aria-label="GitHub">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                    <!-- Medium Icon -->
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors duration-300"
+                        aria-label="Medium">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-gray-600 text-sm font-light">&copy; 2026 AI 3D Printing Monitoring. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const desktopNavs = document.querySelectorAll('.desktop-nav');
+            const mobileNavs = document.querySelectorAll('.mobile-nav');
+            const sections = document.querySelectorAll('section[id]');
+
+            const navActiveDesktop = ['bg-white', 'shadow-sm', 'border-gray-200', 'font-semibold', 'text-gray-900'];
+            const navInactiveDesktop = ['font-medium', 'text-gray-600', 'hover:text-gray-900', 'hover:bg-white/50', 'border-transparent'];
+
+            const navActiveMobile = ['text-orange-500', 'bg-orange-50', 'font-semibold'];
+            const navInactiveMobile = ['text-gray-600', 'hover:text-gray-900', 'font-medium'];
+
+            function updateNav(id) {
+                desktopNavs.forEach(link => {
+                    const isActive = link.getAttribute('href') === `#${id}`;
+                    if (isActive) {
+                        link.classList.remove(...navInactiveDesktop);
+                        link.classList.add(...navActiveDesktop);
+                    } else {
+                        link.classList.remove(...navActiveDesktop);
+                        link.classList.add(...navInactiveDesktop);
+                    }
+                });
+                mobileNavs.forEach(link => {
+                    const isActive = link.getAttribute('href') === `#${id}`;
+                    if (isActive) {
+                        link.classList.remove(...navInactiveMobile);
+                        link.classList.add(...navActiveMobile);
+                    } else {
+                        link.classList.remove(...navActiveMobile);
+                        link.classList.add(...navInactiveMobile);
+                    }
+                });
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        updateNav(entry.target.id);
+                    }
+                });
+            }, { rootMargin: '-30% 0px -70% 0px' });
+
+            sections.forEach(sec => observer.observe(sec));
+        });
+
+        const menuBtn = document.getElementById("menuBtn");
+        const mobileMenu = document.getElementById("mobileMenu");
+        const overlay = document.getElementById("overlay");
+        const closeBtn = document.getElementById("closeBtn");
+
+        function openMenu() { mobileMenu.classList.remove("translate-x-full"); overlay.classList.remove("hidden"); document.body.style.overflow = "hidden"; }
+        function closeMenu() { mobileMenu.classList.add("translate-x-full"); overlay.classList.add("hidden"); document.body.style.overflow = ""; }
+
+        menuBtn.addEventListener("click", openMenu);
+        closeBtn.addEventListener("click", closeMenu);
+        overlay.addEventListener("click", closeMenu);
+
+        const data = [
+            { img: "../static/public/spagetti.png", title: "Spagetti", desc: "a failed print where the nozzle extrudes plastic into the air instead of onto the model, creating a tangled, web-like mess resembling a pile of pasta" },
+            { img: "../static/public/bridging.png", title: "Bridging", desc: "when the printer fails to extrude plastic straight across an unsupported horizontal gap between two points, resulting in sagging, drooping, stringing, or broken strands" },
+            { img: "../static/public/layer_shift.png", title: "Layer Shift", desc: "when the printer's toolhead or bed misses steps, resulting in a sudden, misalignment of layers, usually along the X or Y axis." },
+            { img: "../static/public/spagetti.png", title: "Bed not Stick", desc: "A non-stick bed in 3D printing, where the first layer fails to adhere to the build platform, is usually caused by an incorrect nozzle-to-bed distance (Z-offset), a dirty surface, or improper temperatures" },
+            { img: "../static/public/spagetti.png", title: "Under Extrusion", desc: "a common error where the printer fails to push enough filament, resulting in thin, weak layers, gaps, or holes (pockmarks) in the print." },
+            { img: "../static/public/spagetti.png", title: "Over Extrusion", desc: "occurs when the printer forces too much filament through the nozzle, exceeding the needed volume." }
+        ];
+
+        const container = document.getElementById("cardContainer");
+
+        data.forEach((item, index) => {
+            const delay = (index % 3) * 150;
+            const card = `
+                <div class="flip-card h-80 cursor-pointer animate-fade-in-up" style="animation-delay: ${delay}ms">
+                    <div class="flip-inner shadow-xl shadow-black/40 rounded-[2rem] group">
+                        <div class="flip-front rounded-[2rem] overflow-hidden bg-[#1a1a1a] border border-gray-800 relative">
+                            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/95 z-10 hover:opacity-80 transition-opacity duration-300"></div>
+                            <img src="${item.img}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.05]" />
+                            <div class="absolute bottom-8 left-8 z-20">
+                                <span class="w-8 h-1 bg-orange-500 block mb-4"></span>
+                                <h3 class="text-2xl font-bold text-white tracking-wide">${item.title}</h3>
+                            </div>
+                        </div>
+                        <div class="flip-back flex flex-col justify-center items-center text-center p-10 rounded-[2rem] border-2 border-orange-500/20 bg-[#161616]">
+                            <h3 class="text-2xl font-bold mb-4 text-orange-500">${item.title}</h3>
+                            <p class="text-gray-300 font-light leading-relaxed text-lg">${item.desc}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += card;
+        });
+
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll('.animate-fade-in-up').forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+
+</html>
