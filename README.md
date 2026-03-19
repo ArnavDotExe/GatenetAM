@@ -46,9 +46,9 @@ The web interface provides:
 
 The app also reads frames from the `images/` folder for monitoring simulation.
 
-<img src="images/image_0067.jpg" alt="Frame 1" width="320" />
-<img src="images/image_0126.jpg" alt="Frame 2" width="320" />
-<img src="images/image_0337.jpg" alt="Frame 3" width="320" />
+<img src="images/image_0067.jpg" alt="Frame 1" width="160" />
+<img src="images/image_0126.jpg" alt="Frame 2" width="160" />
+<img src="images/image_0337.jpg" alt="Frame 3" width="160" />
 
 ### Website Screenshots (Captured)
 
